@@ -1,0 +1,30 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: rocketmq-native-consumer
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+rocketmq:
+  consumer:
+    # 是否开启消费者配置
+    enable: true
+    # nameserver地址
+    nameserver-address: 192.168.1.112:9876
+    # 消费者组
+    # 消费同一类消息设置为同一个group，保证唯一
+    # 默认RocketMQ会使用ip@pid作为唯一标识
+    group-name: ${spring.application.name}
+    # 消费者订阅的主题
+    topics: TestTopic
+    # 消费者订阅的tag
+    tag: "*"
+    # 消费者线程数量
+    consume-thread-min: 5
+    consume-thread-max: 32
+    # 设置一次消费消息的条数
+    # 默认1
+    consume-message-batch-max-size: 1
