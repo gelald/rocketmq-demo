@@ -11,6 +11,7 @@
     <modules>
         <module>rocketmq-native-demo</module>
         <module>rocketmq-boot-demo</module>
+        <module>rocketmq-stream-demo</module>
     </modules>
 
     <properties>
@@ -19,7 +20,8 @@
         <maven.compiler.target>8</maven.compiler.target>
         <spring.boot.version>2.6.1</spring.boot.version>
         <rocketmq-client.version>4.8.0</rocketmq-client.version>
-        <rocketmq-spring-boot.version>2.2.0</rocketmq-spring-boot.version>
+        <rocketmq-boot.version>2.2.0</rocketmq-boot.version>
+        <rocketmq-stream.version>2.2.6.RELEASE</rocketmq-stream.version>
     </properties>
 
     <dependencyManagement>

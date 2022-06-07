@@ -1,0 +1,20 @@
+server:
+  port: 11001
+
+spring:
+  application:
+    name: rocketmq-stream-demo
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  cloud:
+    stream:
+      rocketmq:
+        binder:
+          name-server: 192.168.1.112:9876
+      bindings:
+        output:
+          destination: TestStreamTopic
+        input:
+          destination: TestStreamTopic
+          group: ${spring.application.name}
