@@ -22,6 +22,12 @@ public class RocketMQProducerController {
         return "success";
     }
 
+    @GetMapping("/sendWithTransaction")
+    public Object sendWithTransaction(String msg) throws InterruptedException {
+        this.rocketMQProducer.sendMessageInTransaction("TestBootTopic", msg);
+        return "success";
+    }
+
     @Autowired
     public void setRocketMQProducer(RocketMQProducer rocketMQProducer) {
         this.rocketMQProducer = rocketMQProducer;
