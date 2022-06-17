@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class CommonConsumer {
     public static void main(String[] args) throws MQClientException {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer();
-        consumer.setNamesrvAddr("localhost:9876");
+        consumer.setNamesrvAddr("192.168.1.112:9876");
         consumer.setConsumerGroup("common-consumer");
         // 设置消费者第一次启动是从队列头部开始还是队列尾部开始消费
         // 如果不是第一次启动，那么按照上次消费的位置继续消费

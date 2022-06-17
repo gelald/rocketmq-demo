@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 public class CommonProducer {
     public static void main(String[] args) throws MQClientException, MQBrokerException, RemotingException, InterruptedException {
         DefaultMQProducer producer = new DefaultMQProducer();
-        producer.setNamesrvAddr("localhost:9876");
+        producer.setNamesrvAddr("192.168.1.112:9876");
         producer.setProducerGroup("common-producer");
         producer.setVipChannelEnabled(false);
         producer.start();
