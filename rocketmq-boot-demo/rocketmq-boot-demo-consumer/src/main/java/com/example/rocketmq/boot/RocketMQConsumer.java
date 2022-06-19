@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-@RocketMQMessageListener(consumerGroup = "rocketmq-boot-consumer", topic = "TestBootTopic")
+@RocketMQMessageListener(consumerGroup = "rocketmq-boot-consumer", topic = "${rocketmq.consumer.topic}")
 public class RocketMQConsumer implements RocketMQListener<String> {
 
     @Override

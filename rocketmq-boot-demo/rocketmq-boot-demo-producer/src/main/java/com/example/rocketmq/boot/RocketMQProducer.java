@@ -36,6 +36,17 @@ public class RocketMQProducer {
         }
     }
 
+    public void sendTransactionMessage(String destination, String msg) {
+        Message<String> message = MessageBuilder.withPayload(msg).build();
+        TransactionSendResult transactionSendResult = rocketMQTemplate.sendMessageInTransaction(destination,
+                message, null);
+        // 发送状态
+        String sendStatus = transactionSendResult.getSendStatus().name();
+        // 本地事务执行状态
+        String localTxState = transactionSendResult.getLocalTransactionState().name();
+        log.info("send tx message payload:{}, sendStatus:{}, localTXState:{}", msg, sendStatus, localTxState);
+    }
+
     @Autowired
     public void setRocketMQTemplate(RocketMQTemplate rocketMQTemplate) {
         this.rocketMQTemplate = rocketMQTemplate;

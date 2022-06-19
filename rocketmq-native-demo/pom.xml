@@ -10,11 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>rocketmq-native-demo</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>rocketmq-native-demo-consumer</module>
-        <module>rocketmq-native-demo-producer</module>
-    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

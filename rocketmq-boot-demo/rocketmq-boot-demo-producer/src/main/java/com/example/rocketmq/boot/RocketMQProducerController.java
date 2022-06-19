@@ -23,8 +23,8 @@ public class RocketMQProducerController {
     }
 
     @GetMapping("/sendWithTransaction")
-    public Object sendWithTransaction(String msg) throws InterruptedException {
-        this.rocketMQProducer.sendMessageInTransaction("TestBootTopic", msg);
+    public Object sendWithTransaction(String msg) {
+        this.rocketMQProducer.sendTransactionMessage("test-tx-rocketmq", msg);
         return "success";
     }
 
