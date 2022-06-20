@@ -22,19 +22,6 @@ public class CustomTransactionListener implements RocketMQLocalTransactionListen
 
     @Override
     public RocketMQLocalTransactionState executeLocalTransaction(Message message, Object o) {
-        /*Object id = message.getHeaders().get("id");
-        String destination = o.toString();
-        assert id != null;
-        localTrans.put(id, destination);
-        org.apache.rocketmq.common.message.Message msg = RocketMQUtil.convertToRocketMessage(new StringMessageConverter(), "UTF-8", destination, message);
-        String tags = msg.getTags();
-        if (StringUtils.contains(tags, "TagA")) {
-            return RocketMQLocalTransactionState.COMMIT;
-        } else if (StringUtils.contains(tags, "TagB")) {
-            return RocketMQLocalTransactionState.ROLLBACK;
-        } else {
-            return RocketMQLocalTransactionState.UNKNOWN;
-        }*/
         log.info("开始执行本地事务");
         try {
             TimeUnit.SECONDS.sleep(1);
@@ -49,7 +36,6 @@ public class CustomTransactionListener implements RocketMQLocalTransactionListen
 
     @Override
     public RocketMQLocalTransactionState checkLocalTransaction(Message message) {
-        // return RocketMQLocalTransactionState.COMMIT;
         log.info("开始回查本地事务");
         try {
             log.info("回查本地事务，本地事务成功");

@@ -16,15 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class RocketMQProducerController {
     private RocketMQProducer rocketMQProducer;
 
-    @GetMapping("/sendString")
-    public Object sendString(String msg) {
-        this.rocketMQProducer.send("TestBootTopic", msg);
+    @GetMapping("/sendCommonMessage")
+    public Object sendCommonMessage(String messageBody) {
+        this.rocketMQProducer.sendCommonMessage("test-common-rocketmq", messageBody);
         return "success";
     }
 
-    @GetMapping("/sendWithTransaction")
-    public Object sendWithTransaction(String msg) {
-        this.rocketMQProducer.sendTransactionMessage("test-tx-rocketmq", msg);
+    @GetMapping("/sendTransactionalMessage")
+    public Object sendTransactionalMessage(String messageBody) {
+        this.rocketMQProducer.sendTransactionalMessage("test-tx-rocketmq", messageBody);
+        return "success";
+    }
+
+    @GetMapping("/sendOrderMessage")
+    public Object sendOrderMessage() {
+        this.rocketMQProducer.sendOrderMessage("test-orderly-rocketmq");
         return "success";
     }
 

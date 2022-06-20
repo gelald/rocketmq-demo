@@ -1,14 +1,13 @@
 package com.example.rocketmq.boot;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.TransactionSendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author WuYingBin
@@ -19,32 +18,39 @@ import java.util.concurrent.TimeUnit;
 public class RocketMQProducer {
     private RocketMQTemplate rocketMQTemplate;
 
-    public void send(String topic, String msg) {
-        log.info("发送消息: {}, Topic: {}", msg, topic);
-        this.rocketMQTemplate.convertAndSend(topic, msg);
+    public void sendCommonMessage(String destination, String messageBody) {
+        Message<String> message = MessageBuilder.withPayload(messageBody).build();
+        log.info("发送消息: {}, Topic: {}", message, destination);
+        this.rocketMQTemplate.send(destination, message);
     }
 
-    public void sendMessageInTransaction(String topic, String msg) throws InterruptedException {
-        String[] tags = new String[]{"TagA", "TagB", "TagC", "TagD", "TagE"};
-        for (int i = 0; i < 10; i++) {
-            Message<String> message = MessageBuilder.withPayload(msg).build();
-            String destination = topic + ":" + tags[i % tags.length];
-            log.info("destination:{}", destination);
-            TransactionSendResult transactionSendResult = this.rocketMQTemplate.sendMessageInTransaction(destination, message, destination);
-            log.info("sendResult:{}", transactionSendResult);
-            TimeUnit.SECONDS.sleep(3);
-        }
-    }
-
-    public void sendTransactionMessage(String destination, String msg) {
-        Message<String> message = MessageBuilder.withPayload(msg).build();
-        TransactionSendResult transactionSendResult = rocketMQTemplate.sendMessageInTransaction(destination,
-                message, null);
+    public void sendTransactionalMessage(String destination, String messageBody) {
+        Message<String> message = MessageBuilder.withPayload(messageBody).build();
+        TransactionSendResult transactionSendResult = this.rocketMQTemplate.sendMessageInTransaction(destination, message, null);
         // 发送状态
         String sendStatus = transactionSendResult.getSendStatus().name();
         // 本地事务执行状态
         String localTxState = transactionSendResult.getLocalTransactionState().name();
-        log.info("send tx message payload:{}, sendStatus:{}, localTXState:{}", msg, sendStatus, localTxState);
+        log.info("send tx message payload:{}, sendStatus:{}, localTXState:{}", messageBody, sendStatus, localTxState);
+    }
+
+    public void sendOrderMessage(String destination) {
+        for (int i = 0; i < 5; i++) {
+            Message<String> message = MessageBuilder.withPayload("订单创建" + i).build();
+            // 同步顺序消息
+            SendResult sendResult = this.rocketMQTemplate.syncSendOrderly(destination, message, String.valueOf(i));
+            log.info("发送顺序消息成功:{}", sendResult);
+
+            message = MessageBuilder.withPayload("订单支付" + i).build();
+            // 同步顺序消息
+            sendResult = this.rocketMQTemplate.syncSendOrderly(destination, message, String.valueOf(i));
+            log.info("发送顺序消息成功:{}", sendResult);
+
+            message = MessageBuilder.withPayload("订单发货" + i).build();
+            // 同步顺序消息
+            sendResult = this.rocketMQTemplate.syncSendOrderly(destination, message, String.valueOf(i));
+            log.info("发送顺序消息成功:{}", sendResult);
+        }
     }
 
     @Autowired
