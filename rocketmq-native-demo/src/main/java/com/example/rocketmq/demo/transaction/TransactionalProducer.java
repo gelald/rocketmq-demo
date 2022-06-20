@@ -39,5 +39,6 @@ public class TransactionalProducer {
         Message msg = new Message("transaction-topic", "tag1", ("Hello RocketMQ transaction").getBytes(StandardCharsets.UTF_8));
         SendResult sendResult = producer.sendMessageInTransaction(msg, null);
         System.out.println("发送成功" + sendResult);
+        producer.shutdown();
     }
 }
