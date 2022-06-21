@@ -18,10 +18,10 @@ public class CommonProducer {
         DefaultMQProducer producer = new DefaultMQProducer();
         producer.setNamesrvAddr("192.168.1.112:9876");
         producer.setProducerGroup("common-producer");
-        producer.setVipChannelEnabled(false);
         producer.start();
         Message message = new Message("TestTopic", "TestTag", "hello".getBytes(StandardCharsets.UTF_8));
         SendResult sendResult = producer.send(message);
         System.out.println("消息发送响应: " + sendResult);
+        producer.shutdown();
     }
 }

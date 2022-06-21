@@ -20,8 +20,14 @@ public class RocketMQProducer {
 
     public void sendCommonMessage(String destination, String messageBody) {
         Message<String> message = MessageBuilder.withPayload(messageBody).build();
-        log.info("发送消息: {}, Topic: {}", message, destination);
         this.rocketMQTemplate.send(destination, message);
+        log.info("发送消息: {}, Topic: {}", message, destination);
+    }
+
+    public void sendOnewayMessage(String destination, String messageBody) {
+        Message<String> message = MessageBuilder.withPayload(messageBody).build();
+        this.rocketMQTemplate.sendOneWay(destination, message);
+        log.info("单向消息发送成功: {}", messageBody);
     }
 
     public void sendTransactionalMessage(String destination, String messageBody) {

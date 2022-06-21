@@ -22,6 +22,12 @@ public class RocketMQProducerController {
         return "success";
     }
 
+    @GetMapping("/sendOnewayMessage")
+    public Object sendOnewayMessage(String messageBody) {
+        this.rocketMQProducer.sendOnewayMessage("test-oneway-rocketmq", messageBody);
+        return "success";
+    }
+
     @GetMapping("/sendTransactionalMessage")
     public Object sendTransactionalMessage(String messageBody) {
         this.rocketMQProducer.sendTransactionalMessage("test-tx-rocketmq", messageBody);
